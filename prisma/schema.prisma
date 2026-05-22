@@ -91,12 +91,15 @@ model AuditLog {
 
 model DailyCheckIn {
   id              String   @id @default(cuid())
-  checkInDate     DateTime @default(now())
+  date            DateTime @default(now())
   rawText         String
-  parsedJson      String
+  rawVoiceUrl     String?
+  overallFeeling  String?
+  energyLevel     Int?
+  stressLevel     Int?
+  notes           String?
+  aiSummary       String?
   riskLevel       String   @default("低")
-  riskNotice      String?
-  disclaimer      String
   createdAt       DateTime @default(now())
 }
 model DietEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) breakfast String? lunch String? dinner String? spicy Boolean @default(false) greasy Boolean @default(false) sweet Boolean @default(false) waterIntakeL Float? alcohol String? caffeine String? postMealReaction String? createdAt DateTime @default(now()) }
