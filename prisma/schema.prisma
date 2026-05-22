@@ -88,3 +88,27 @@ model AuditLog {
   detail      String?
   createdAt   DateTime @default(now())
 }
+
+model DailyCheckIn {
+  id              String   @id @default(cuid())
+  checkInDate     DateTime @default(now())
+  rawText         String
+  parsedJson      String
+  riskLevel       String   @default("低")
+  riskNotice      String?
+  disclaimer      String
+  createdAt       DateTime @default(now())
+}
+model DietEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) breakfast String? lunch String? dinner String? spicy Boolean @default(false) greasy Boolean @default(false) sweet Boolean @default(false) waterIntakeL Float? alcohol String? caffeine String? postMealReaction String? createdAt DateTime @default(now()) }
+model SleepEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) bedtime String? wakeupTime String? durationHours Float? quality Int? awakenings Int? dreams Boolean @default(false) wakeFatigue Boolean @default(false) createdAt DateTime @default(now()) }
+model ExerciseEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) exerciseType String? durationMin Int? intensity String? discomfort String? createdAt DateTime @default(now()) }
+model WeightEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) weightKg Float createdAt DateTime @default(now()) }
+model VitalSignEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) systolic Int? diastolic Int? bloodSugar Float? heartRate Int? oxygen Int? temperature Float? createdAt DateTime @default(now()) }
+model BowelEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) frequency Int? shape String? color String? texture String? blood Boolean @default(false) mucus Boolean @default(false) abdominalPain Boolean @default(false) createdAt DateTime @default(now()) }
+model TongueEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) imagePath String? tongueColor String? coatingColor String? thickness String? teethMarks Boolean @default(false) cracks Boolean @default(false) moisture String? createdAt DateTime @default(now()) }
+model MoodEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) stressScore Int? mood String? fatigueLevel Int? createdAt DateTime @default(now()) }
+model MedicationEntry { id String @id @default(cuid()) checkInDate DateTime @default(now()) name String dose String? missed Boolean @default(false) reaction String? createdAt DateTime @default(now()) }
+model TCMObservation { id String @id @default(cuid()) observeDate DateTime @default(now()) clueText String disclaimer String createdAt DateTime @default(now()) }
+model ConsultRequest { id String @id @default(cuid()) consultType String mainQuestion String urgency String preferredMethod String status String @default("待处理") summary String disclaimer String createdAt DateTime @default(now()) }
+model HealthInsight { id String @id @default(cuid()) period String summary String riskReminder String nextStep String disclaimer String createdAt DateTime @default(now()) }
+model HealthTimelineEvent { id String @id @default(cuid()) eventType String title String detail String? riskLevel String? isUrgent Boolean @default(false) eventTime DateTime @default(now()) createdAt DateTime @default(now()) }
