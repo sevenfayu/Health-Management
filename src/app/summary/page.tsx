@@ -1,0 +1,4 @@
+import { prisma } from "@/lib/prisma";
+import { generateHealthSummary } from "@/lib/aiService";
+import { DisclaimerBox } from "@/components/DisclaimerBox";
+export default async function Page(){const [profile,symptoms,lifestyle,records]=await Promise.all([prisma.userProfile.findFirst(),prisma.symptomEntry.findMany({take:10,orderBy:{createdAt:'desc'}}),prisma.lifestyleEntry.findMany({take:10,orderBy:{createdAt:'desc'}}),prisma.medicalRecord.findMany()]); const s=await generateHealthSummary({profile,symptoms,lifestyle,records}); return <div className="space-y-3"><h1 className="text-xl font-bold">AI健康摘要</h1><DisclaimerBox/><div className="bg-white border rounded p-4 space-y-2"><p><b>当前健康概览：</b>{s.overview}</p><p><b>近期主要不适：</b>{s.discomfort}</p><p><b>风险因素：</b>{s.risks}</p><p><b>建议事项：</b>{s.advice}</p><p><b>给医生摘要：</b>{s.doctorBrief}</p><p><b>下次可问：</b>{s.nextQuestions}</p></div></div>}
