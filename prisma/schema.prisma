@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model UserProfile {
+  id             String   @id @default(cuid())
+  name           String
+  gender         String
+  birthYear      Int
+  heightCm       Float
+  weightKg       Float
+  bloodType      String?
+  countryRegion  String
+  allergies      String?
+  pastHistory    String?
+  familyHistory  String?
+  longTermMeds   String?
+  surgeries      String?
+  notes          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model SymptomEntry {
+  id               String         @id @default(cuid())
+  symptomName      String
+  startTime        DateTime
+  duration         String
+  severity         Int
+  bodyPart         String?
+  triggers         String?
+  associated       String?
+  relieved         Boolean
+  notes            String?
+  createdAt        DateTime       @default(now())
+  aiAssessment     AiAssessment?
+}
+
+model LifestyleEntry {
+  id              String   @id @default(cuid())
+  sleepHours      Float
+  diet            String
+  waterIntakeL    Float
+  exercise        String
+  stressLevel     Int
+  smokingAlcohol  String
+  caffeine        String
+  notes           String?
+  createdAt       DateTime @default(now())
+}
+
+model MedicalRecord {
+  id            String   @id @default(cuid())
+  fileName      String
+  fileType      String
+  category      String
+  reportDate    DateTime
+  note          String?
+  storagePath   String?
+  createdAt     DateTime @default(now())
+}
+
+model AiAssessment {
+  id                    String       @id @default(cuid())
+  symptomEntryId        String       @unique
+  riskLevel             String
+  suggestedDepartment   String
+  offlineVisitSuggested Boolean
+  followupQuestions     String
+  prepMaterials         String
+  redFlagNotice         String
+  disclaimer            String
+  createdAt             DateTime     @default(now())
+  symptomEntry          SymptomEntry @relation(fields: [symptomEntryId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  actor       String
+  action      String
+  entityType  String
+  entityId    String
+  detail      String?
+  createdAt   DateTime @default(now())
+}
